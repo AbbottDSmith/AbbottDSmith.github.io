@@ -6,21 +6,42 @@
 	
 	<h1>Response:</h1>
 	
-	<p id="response">waiting...</p>
+	<p id="resParagraph">waiting...</p>
+	
+	<r>
+	
+	<p id="HTTPCode"></p>
+	
+	<r>
+	
+	<p id="responseMessage"></p>
 	
   </head>
   <body>
     <script>
-	
-	  let data = {"apikey": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"};
 
-      fetch("https://api2.vivokey.com/v1/get-challenge", {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify(data)
-      }).then(res => {
-        document.getElementById("response").innerHTML = res;
-      });
+	  let xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+		  if (xhr.status == 0) {
+		    document.getElementById("resParagraph").innerHTML = "/get-challenge FAILED";
+		  }
+		  if (xhr.status == 200) {
+		    document.getElementById("resParagraph").innerHTML = "/get-challenge SUCCESS";	
+		  }
+		  document.getElementById("HTTPCode").innerHTML = "HTTP Status Code: " + xhr.status;
+		  document.getElementById("responseMessage").innerHTML = xhr.responseText;
+        }};
+
+      let data = `{
+        "api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"
+      }`;
+
+      xhr.send(data);
 	  
 	</script>
   </body>
