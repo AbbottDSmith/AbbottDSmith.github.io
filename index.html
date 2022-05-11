@@ -1,1 +1,30 @@
-"hello world" 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checker</title>
+	<h1>Response:</h1>
+	<p id="status">waiting...</p>
+  </head>
+  <body>
+    <script>
+	  let xhr = new XMLHttpRequest();
+      xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          console.log(xhr.status);
+		  let response = xhr.responseText
+		  console.log(response);
+		  document.getElementById("status").innerHTML = response;
+		  if (response === "picc-challenge") {
+		    
+		  }
+        }};
+
+      let data = `{"apikey": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"}`;
+
+      xhr.send(data);
+	</script>
+  </body>
+</html>
