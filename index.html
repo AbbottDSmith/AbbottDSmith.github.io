@@ -21,37 +21,56 @@
 		
 		<r>
 		
-		<button id="Refresh" onClick="window.location.reload();" style="visibility:hidden;">Try Again</button>
+		<button id="Retry" onClick="buttonPress();" style="visibility:hidden;">Try Again</button>
 	
 	</body>
 	<script>
 	
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
-		xhr.setRequestHeader("Accept", "application/json");
-		xhr.setRequestHeader("Content-Type", "application/json");
+		function reset() {
+			document.getElementById("Indicator").innerHTML = "Posting...";
+			document.getElementById("HTTPStatus").style.visibility = "hidden";
+			document.getElementById("HTTPResponse").style.visibility = "hidden";
+			document.getElementById("Retry").style.visibility = "hidden";
+		}
+		
+		function getChallenge() {
+		
+			let xhr = new XMLHttpRequest();
 			
-		let data = `{
-			"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d" // https://youtu.be/pOF4DrQKKTw?t=199
-		}`;
+			xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
+			xhr.setRequestHeader("Accept", "application/json");
+			xhr.setRequestHeader("Content-Type", "application/json");
+			
+			let data = `{
+				"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d" // https://youtu.be/pOF4DrQKKTw?t=199
+			}`;
 	  
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4) {
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === 4) {
 				
-				document.getElementById("Indicator").innerHTML = "POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span>";
+					document.getElementById("Indicator").innerHTML = "POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span>";
 				
-				document.getElementById("HTTPStatus").innerHTML = "HTTP Status Code: " + xhr.status;
-				document.getElementById("HTTPStatus").style.visibility = "visible";
+					document.getElementById("HTTPStatus").innerHTML = "HTTP Status Code: " + xhr.status;
+					document.getElementById("HTTPStatus").style.visibility = "visible";
 				
-				document.getElementById("HTTPResponse").innerHTML = "HTTP Response: " + xhr.responseText;
-				document.getElementById("HTTPResponse").style.visibility = "visible";
+					document.getElementById("HTTPResponse").innerHTML = "HTTP Response: " + xhr.responseText;
+					document.getElementById("HTTPResponse").style.visibility = "visible";
 				
-				document.getElementById("Refresh").style.visibility = "visible";
-		  
-			}
-		};
+					document.getElementById("Retry").style.visibility = "visible";
+					
+					return xhr.responseText;
+				}
+			};
 
-		xhr.send(data);
-	  
+			xhr.send(data);
+		}
+		
+		function buttonPress() {
+			reset();
+			getChallenge();
+		}
+		
+		getChallenge();
+		
 	</script>
 </html>
