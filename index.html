@@ -4,20 +4,25 @@
   
     <title>API2 Checker</title>
 	
-	<h1 id="header">Vivokey API2 Status:</h1>
-	
-	<p id="Status" style="color:blue;">waiting...</p>
-	
-	<r>
-	
-	<p id="HTTPCode"></p>
-	
-	<r>
-	
-	<p id="HTTPTitle"></p>
+	<h1>Vivokey API2 Status:</h1>
 	
   </head>
   <body>
+  
+    <p id="Indicator">Posting...</p>
+	
+	<r>
+	
+	<p id="HTTPStatus" style="visibility:hidden;"></p>
+	
+	<r>
+	
+	<p id="HTTPResponse" style="visibility:hidden;"></p>
+	
+	<r>
+	
+	<button id="Refresh" onClick="window.location.reload();" style="visibility:hidden;">Try Again</button>
+	
     <script>
 
 	  let xhr = new XMLHttpRequest();
@@ -26,16 +31,22 @@
       xhr.setRequestHeader("Content-Type", "application/json");
       
 	  let data = `{
-        "api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"
+        "api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d" // https://youtu.be/pOF4DrQKKTw?t=199
       }`;
 	  
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-		  document.getElementById("Status").style.color = (xhr.status == 200 ? "green" : "red");
-		  document.getElementById("Status").innerHTML = "POST to get-challenge endpoint: " + (xhr.status == 200 ? "Successful" : "Failed");
+		
+		  document.getElementById("Indicator").innerHTML = "POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span>";
 		  
-		  document.getElementById("HTTPCode").innerHTML = "HTTP Status Code: " + xhr.status;
-		  document.getElementById("HTTPTitle").innerHTML = "HTTP Response: " + xhr.responseText;
+		  document.getElementById("HTTPStatus").innerHTML = "HTTP Status Code: " + xhr.status;
+		  document.getElementById("HTTPStatus").style.visibility = "visible";
+		  
+		  document.getElementById("HTTPResponse").innerHTML = "HTTP Response: " + xhr.responseText;
+		  document.getElementById("HTTPResponse").style.visibility = "visible";
+		  
+		  document.getElementById("Refresh").style.visibility = "visible";
+		  
         }};
 
       xhr.send(data);
