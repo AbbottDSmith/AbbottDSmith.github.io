@@ -2,11 +2,11 @@
 <html>
   <head>
   
-    <title>Checker</title>
+    <title>API2 Checker</title>
 	
-	<h1>Response:</h1>
+	<h1 id="header">Vivokey API2 Status:</h1>
 	
-	<p id="resParagraph">waiting...</p>
+	<p id="Status" style="color:blue;">waiting...</p>
 	
 	<r>
 	
@@ -14,7 +14,7 @@
 	
 	<r>
 	
-	<p id="responseMessage"></p>
+	<p id="HTTPTitle"></p>
 	
   </head>
   <body>
@@ -24,22 +24,19 @@
       xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
       xhr.setRequestHeader("Accept", "application/json");
       xhr.setRequestHeader("Content-Type", "application/json");
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-		  if (xhr.status == 0) {
-		    document.getElementById("resParagraph").innerHTML = "/get-challenge FAILED";
-		  }
-		  if (xhr.status == 200) {
-		    document.getElementById("resParagraph").innerHTML = "/get-challenge SUCCESS";	
-		  }
-		  document.getElementById("HTTPCode").innerHTML = "HTTP Status Code: " + xhr.status;
-		  document.getElementById("responseMessage").innerHTML = xhr.responseText;
-        }};
-
-      let data = `{
+      
+	  let data = `{
         "api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"
       }`;
+	  
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+		  document.getElementById("Status").style.color = (xhr.status == 200 ? "green" : "red");
+		  document.getElementById("Status").innerHTML = "POST to get-challenge endpoint: " + (xhr.status == 200 ? "Successful" : "Failed");
+		  
+		  document.getElementById("HTTPCode").innerHTML = "HTTP Status Code: " + xhr.status;
+		  document.getElementById("HTTPTitle").innerHTML = "HTTP Response: " + xhr.responseText;
+        }};
 
       xhr.send(data);
 	  
