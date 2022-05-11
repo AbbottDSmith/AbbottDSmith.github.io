@@ -37,13 +37,11 @@
 		
 			let xhr = new XMLHttpRequest();
 			
-			xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
+			xhr.open("POST", "https://gobble.free.beeceptor.com");
 			xhr.setRequestHeader("Accept", "application/json");
 			xhr.setRequestHeader("Content-Type", "application/json");
 			
-			let data = `{
-				"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d" // https://youtu.be/pOF4DrQKKTw?t=199
-			}`;
+			let data = `{"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"}`; <!-- https://youtu.be/pOF4DrQKKTw?t=199 -->
 	  
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState === 4) {
