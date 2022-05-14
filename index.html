@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-  
+		
 		<title>API2 Checker</title>
 
 		<h1 id="Header" style="text-align:center;">Vivokey API2 Status:</h1>
-	
+		
+		<style type="text/css">
+		
+			h1{font-size: 3.0em;}
+			
+			p{font-size: 1.25em;}
+			
+			button{font-size: 1.5em; padding: 10px 24px;}
+			
+		</style>
 	</head>
 	<body>
 	
@@ -39,10 +48,10 @@
 				if (xhr.readyState === 4) {
 				
 					document.getElementById("Header").innerHTML = "Vivokey API2 Status: <span style=\"color:" + (xhr.status == 200 ? "green;\">Online" : "red;\">Offline") + "</span>";
-					document.getElementById("Indicator").innerHTML = "POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span>";
+					document.getElementById("Indicator").innerHTML = "<b>POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span></b>";
 				
-					document.getElementById("HTTPStatus").innerHTML = "HTTP Status Code: " + xhr.status;
-					document.getElementById("HTTPResponse").innerHTML = "HTTP Response: " + (xhr.responseText == "" ? "Empty" : xhr.responseText);
+					document.getElementById("HTTPStatus").innerHTML = "<b>HTTP Response Status Code: </b>" + xhr.status;
+					document.getElementById("HTTPResponse").innerHTML = "<b>HTTP Response: </b>" + (xhr.responseText == "" ? "Empty" : xhr.responseText);
 					
 					document.getElementById("HTTPStatus").style.visibility = "visible";
 					document.getElementById("HTTPResponse").style.visibility = "visible";
