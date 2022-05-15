@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
+	
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		
 		<title>API2 Checker</title>
 
@@ -8,30 +10,72 @@
 		
 		<style type="text/css">
 			
-			h1{font-size: 3.0em;}
-			
-			p{font-size: 1.25em;}
-			
-			button{font-size: 1.5em; padding: 10px 24px;}
-			
-			@media only screen and (orientation: portrait) {
-				h1{font-size: 4.0em;}
-			
-				p{font-size: 2.0em;}
-			
-				button{font-size: 2.0em; padding: 10px 24px;}
-				
-			}
-			
-			@media only screen and (max-width: 350px) {
-				h1{font-size: 3.25em;}
+			/* Extra small devices (phones, 455px and down) */
+			@media only screen and (max-width: 455px) {
+				h1{font-size: 2.5em;}
 				
 				p{font-size: 1.0em;}
 			
 				button{font-size: 2.0em; padding: 15px 32px;}
-				
+
 			}
 			
+			
+			/* Extra small devices (phones, 455px and up) */
+			@media only screen and (min-width: 455px) {
+				h1{font-size: 3.0em;}
+			
+				p{font-size: 1.25em;}
+			
+				button{font-size: 1.5em; padding: 10px 24px;}
+
+			}
+
+			/* Small devices (portrait tablets and large phones, 600px and up) */
+			@media only screen and (min-width: 600px) {
+				h1{font-size: 3.0em;}
+			
+				p{font-size: 1.25em;}
+			
+				button{font-size: 1.5em; padding: 10px 24px;}
+
+			}
+
+
+			/* Medium devices (landscape tablets, 768px and up) */
+			@media only screen and (min-width: 768px) {
+				h1{font-size: 3.0em;}
+			
+				p{font-size: 1.25em;}
+			
+				button{font-size: 1.5em; padding: 10px 24px;}
+				
+			}
+
+
+			/* Large devices (laptops/desktops, 992px and up) */
+			@media only screen and (min-width: 992px) {
+				h1{font-size: 3.0em;}
+			
+				p{font-size: 1.25em;}
+			
+				button{font-size: 1.5em; padding: 10px 24px;}
+				
+				.TestText {visibility:hidden;}
+			}
+
+			/* Extra large devices (large laptops and desktops, 1200px and up) */
+			@media only screen and (min-width: 1200px) {
+				h1{font-size: 3.0em;}
+			
+				p{font-size: 1.25em;}
+			
+				button{font-size: 1.5em; padding: 10px 24px;}
+				
+				.TestText {visibility:hidden;}
+			}
+
+
 		</style>
 	</head>
 	<body>
@@ -51,47 +95,62 @@
 		<button id="Retry" onClick="buttonPress();" style="visibility:hidden; margin:auto; display:block;">Try Again</button>
 		
 	</body>
-	<script>
+	<script type = "text/javascript">
 		
 		function getChallenge() {
-		
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST", "https://api2.vivokey.com/v1/get-challenge");
-			xhr.setRequestHeader("Accept", "application/json");
-			xhr.setRequestHeader("Content-Type", "application/json");
+			$.ajax({
 			
-			let data = `{"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"}`; <!-- https://youtu.be/pOF4DrQKKTw?t=199 -->
-	  
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === 4) {
+				type: "POST",
 				
-					document.getElementById("Header").innerHTML = "Vivokey API2 Status: <span style=\"color:" + (xhr.status == 200 ? "green;\">Online" : "red;\">Offline") + "</span>";
-					document.getElementById("Indicator").innerHTML = "<b>POST to get-challenge endpoint: <span style=\"color:" + (xhr.status == 200 ? "green;\">Success" : "red;\">Failed") + "</span></b>";
+				url: "https://api2.vivokey.com/v1/get-challenge",
 				
-					document.getElementById("HTTPStatus").innerHTML = "<b>HTTP Response Status Code: </b>" + xhr.status;
-					document.getElementById("HTTPResponse").innerHTML = "<b>HTTP Response: </b>" + (xhr.responseText == "" ? "Empty" : xhr.responseText);
-					
-					document.getElementById("HTTPStatus").style.visibility = "visible";
-					document.getElementById("HTTPResponse").style.visibility = "visible";
-					document.getElementById("Retry").style.visibility = "visible";
-					
-					return xhr.responseText;
-				}
-			};
-
-			xhr.send(data);
+				contentType: "text/plain",
+				
+				data: JSON.stringify({"api-key": "da7874db982d5506257be2ecf17c0e49bbdc64c121f40c02e5bc2019e99d"}),
+				
+				success: onPOSTSuccess,
+				
+				error: onPOSTFailure
+				
+			});
 		}
 		
-		function reset() {
-			document.getElementById("Indicator").innerHTML = "Posting...";
-			document.getElementById("HTTPStatus").style.visibility = "hidden";
-			document.getElementById("HTTPResponse").style.visibility = "hidden";
-			document.getElementById("Retry").style.visibility = "hidden";
+		function onPOSTSuccess(result) {
+		
+			document.getElementById("Header").innerHTML = "Vivokey API2 Status: <span style=\"color:green;\">Online</span>";
+			document.getElementById("Indicator").innerHTML = "<b>AJAX JSON POST: <span style=\"color:green;\">SUCCESS</span></b>";
+
+			document.getElementById("HTTPResponse").innerHTML = "<b>HTTP Response: </b>" + (result == "" ? "Empty" : JSON.stringify(result));
+
+			document.getElementById("HTTPResponse").style.visibility = "visible";
+			document.getElementById("Retry").style.visibility = "visible";
+			
+		}
+		
+		function onPOSTFailure(result) {
+		
+			document.getElementById("Header").innerHTML = "Vivokey API2 Status: <span style=\"color:" + (result.status == 200 ? "green;\">Online" : "red;\">Offline") + "</span>";
+			document.getElementById("Indicator").innerHTML = "<b>AJAX JSON POST: <span style=\"color:red;\">ERROR</span></b>";
+				
+			document.getElementById("HTTPStatus").innerHTML = "<b>HTTP Response Status Code: </b>" +  result.status;
+			document.getElementById("HTTPResponse").innerHTML = "<b>HTTP Response: </b>" + (result == "" ? "Empty" :  JSON.stringify(result));
+					
+			document.getElementById("HTTPStatus").style.visibility = "visible";
+			document.getElementById("HTTPResponse").style.visibility = "visible";
+			document.getElementById("Retry").style.visibility = "visible";
+			
 		}
 		
 		function buttonPress() {
-			reset();
+		
+			document.getElementById("Indicator").innerHTML = "Posting...";
+			
+			document.getElementById("HTTPStatus").style.visibility = "hidden";
+			document.getElementById("HTTPResponse").style.visibility = "hidden";
+			document.getElementById("Retry").style.visibility = "hidden";
+			
 			getChallenge();
+			
 		}
 		
 		getChallenge();
